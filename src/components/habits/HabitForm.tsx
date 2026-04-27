@@ -92,11 +92,10 @@ export default function HabitForm({ onSave, onCancel, editingHabit }: HabitFormP
             id="habit-frequency"
             data-testid="habit-frequency-select"
             value="daily"
-            readOnly
-            aria-readonly="true"
+            onChange={() => {}}
             className="block w-full rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-500 focus:outline-none cursor-default"
           >
-            <option value="daily">Every day</option>
+            <option value="daily">Daily</option>
           </select>
         </div>
       </div>
