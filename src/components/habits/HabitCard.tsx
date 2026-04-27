@@ -33,27 +33,34 @@ export default function HabitCard({ habit, today, onEdit, onDelete, onToggle }: 
         <div className="flex items-center gap-4 p-5">
 
           {/* Complete toggle */}
-          <button
-            type="button"
-            data-testid={`habit-complete-${slug}`}
-            onClick={() => onToggle(habit)}
-            aria-label={isCompleted ? `Unmark ${habit.name} as complete` : `Mark ${habit.name} as complete`}
-            className={`flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-2xl font-bold text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 ${
-              isCompleted
-                ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-200 focus:ring-emerald-400'
-                : 'bg-gray-50 border-2 border-gray-200 text-gray-300 hover:border-indigo-300 hover:text-indigo-400 hover:bg-indigo-50 focus:ring-indigo-300'
-            }`}
-          >
-            {isCompleted ? (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <circle cx="12" cy="12" r="9" />
-              </svg>
-            )}
-          </button>
+          <div className="flex-shrink-0 flex flex-col items-center gap-1">
+            <button
+              type="button"
+              data-testid={`habit-complete-${slug}`}
+              onClick={() => onToggle(habit)}
+              aria-label={isCompleted ? `Unmark ${habit.name} as complete` : `Mark ${habit.name} as complete`}
+              className={`flex items-center justify-center w-12 h-12 rounded-2xl font-bold text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-95 ${
+                isCompleted
+                  ? 'bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-md shadow-emerald-200 focus:ring-emerald-400'
+                  : 'bg-gray-50 border-2 border-gray-200 text-gray-300 hover:border-indigo-300 hover:text-indigo-400 hover:bg-indigo-50 focus:ring-indigo-300'
+              }`}
+            >
+              {isCompleted ? (
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+              )}
+            </button>
+            <span className={`text-[10px] font-semibold leading-none ${
+              isCompleted ? 'text-emerald-500' : 'text-gray-400'
+            }`}>
+              {isCompleted ? 'Done' : 'Mark'}
+            </span>
+          </div>
 
           {/* Name + description */}
           <div className="flex-1 min-w-0">
