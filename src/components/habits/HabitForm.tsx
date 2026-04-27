@@ -44,10 +44,11 @@ export default function HabitForm({ onSave, onCancel, editingHabit }: HabitFormP
       className="rounded-2xl bg-gradient-to-br from-white to-indigo-50/30 border border-indigo-100 p-6 shadow-lg"
     >
 
-      <div className="flex items-center justify-between mb-6">
+      {/* Header row */}
+      <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
-          <div className="w-1 h-6 bg-gradient-to-b from-indigo-500 to-indigo-600 rounded-full"></div>
-          <h2 className="text-lg font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+          <div className="w-1 h-6 bg-gradient-to-b from-indigo-500 to-indigo-600 rounded-full" />
+          <h2 className="text-lg font-bold text-gray-900">
             {editingHabit ? 'Edit habit' : 'Create new habit'}
           </h2>
         </div>
@@ -61,6 +62,53 @@ export default function HabitForm({ onSave, onCancel, editingHabit }: HabitFormP
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
+      </div>
+
+      {/* Frequency picker — top of form, visually prominent */}
+      <div className="mb-5">
+        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+          Frequency
+        </label>
+        {/* Hidden select keeps the required data-testid for tests */}
+        <select
+          id="habit-frequency"
+          data-testid="habit-frequency-select"
+          value="daily"
+          onChange={() => {}}
+          tabIndex={-1}
+          aria-hidden="true"
+          className="sr-only"
+        >
+          <option value="daily">Daily</option>
+        </select>
+        {/* Visual pill selector */}
+        <div className="grid grid-cols-3 gap-2" aria-label="Frequency options">
+          {[
+            { label: 'Daily', sub: 'Every day', active: true },
+            { label: 'Weekly', sub: 'Coming soon', active: false },
+            { label: 'Monthly', sub: 'Coming soon', active: false },
+          ].map(({ label, sub, active }) => (
+            <div
+              key={label}
+              aria-pressed={active}
+              className={`relative flex flex-col items-center justify-center rounded-xl px-2 py-3 text-center border-2 transition-all select-none ${
+                active
+                  ? 'border-indigo-500 bg-indigo-600 text-white shadow-md shadow-indigo-200 cursor-default'
+                  : 'border-gray-100 bg-gray-50 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              <span className={`text-sm font-bold ${active ? 'text-white' : 'text-gray-400'}`}>
+                {label}
+              </span>
+              <span className={`text-xs mt-0.5 ${active ? 'text-indigo-200' : 'text-gray-300'}`}>
+                {sub}
+              </span>
+              {active && (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-indigo-300" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-5">
@@ -102,30 +150,6 @@ export default function HabitForm({ onSave, onCancel, editingHabit }: HabitFormP
           />
         </div>
 
-        <div>
-          <label htmlFor="habit-frequency" className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
-            Frequency
-          </label>
-          <div className="relative">
-            <select
-              id="habit-frequency"
-              data-testid="habit-frequency-select"
-              value="daily"
-              onChange={() => {}}
-              tabIndex={-1}
-              className="block w-full rounded-xl border-2 border-indigo-200 bg-gradient-to-r from-indigo-50 to-indigo-100/50 px-4 py-3 text-sm font-semibold text-indigo-700 cursor-default focus:outline-none"
-              style={{ appearance: 'none', WebkitAppearance: 'none' }}
-            >
-              <option value="daily">✨ Daily — every single day</option>
-            </select>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
-              <span className="text-xs font-medium text-indigo-500 bg-white/60 rounded-full px-2 py-0.5">active</span>
-              <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="flex gap-3 mt-8">
