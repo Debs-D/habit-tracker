@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import { getSession, logOut } from '@/lib/auth';
 import { getUserHabits, addHabit, updateHabit, removeHabit } from '@/lib/storage';
 import { toggleHabitCompletion } from '@/lib/habits';
@@ -54,10 +53,8 @@ export default function DashboardPage() {
     if (!session) return;
     if (editingHabit) {
       updateHabit({ ...editingHabit, name: data.name, description: data.description });
-      toast.success('Habit updated', { description: `"${data.name}" has been saved.` });
     } else {
       addHabit({ ...data, userId: session.userId });
-      toast.success('Habit created', { description: `"${data.name}" added to your list.` });
     }
     setHabits(getUserHabits(session.userId));
     setShowForm(false);
@@ -71,10 +68,8 @@ export default function DashboardPage() {
 
   const handleDelete = (id: string) => {
     if (!session) return;
-    const deleted = habits.find((h) => h.id === id);
     removeHabit(id);
     setHabits(getUserHabits(session.userId));
-    if (deleted) toast.error('Habit deleted', { description: `"${deleted.name}" has been removed.` });
   };
 
   const handleToggle = (habit: Habit) => {
@@ -82,12 +77,6 @@ export default function DashboardPage() {
     const updated = toggleHabitCompletion(habit, today);
     updateHabit(updated);
     setHabits(getUserHabits(session.userId));
-    const nowDone = updated.completions.includes(today);
-    if (nowDone) {
-      toast.success(`"${habit.name}" done!`, { description: 'Keep the streak going!' });
-    } else {
-      toast(`Unmarked "${habit.name}"`, { description: 'Completion removed for today.' });
-    }
   };
 
   const handleLogout = () => {
